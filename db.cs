@@ -8,6 +8,7 @@ using System.Data.SQLite;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Xml;
 
 namespace sentence
 {
@@ -70,11 +71,6 @@ namespace sentence
               Stopwatch stopwatch = new Stopwatch();
               stopwatch.Start();
 
-
-
-
-
-
               using (SQLiteCommand cmd = conn.CreateCommand())
               {
                   IDbTransaction trans = conn.BeginTransaction();
@@ -114,6 +110,17 @@ namespace sentence
                   stopwatch.Stop();
                   Console.WriteLine(stopwatch.Elapsed);
               }
+          }
+
+      }
+
+      public class FileReader
+      {
+          XmlDocument conf = null;
+          XmlElement foldPath = null;
+          
+          public string foldPath(){
+              
           }
 
       }
