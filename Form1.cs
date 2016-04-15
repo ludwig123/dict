@@ -18,16 +18,14 @@ namespace sentence
     public partial class Form1 : Form
     {
         // global enviriment variables;
-        private string foldPath = null;
-        private string filePath = null;
-
-        //所有文件的路径集合
-        private ICollection fileDir = null;
+        public string foldPath = null;
+        public string filePath = null;
 
 
         public Form1()
         {
             InitializeComponent();
+            DBConnection myconn = new DBConnection();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -46,82 +44,14 @@ namespace sentence
             foreach (FileInfo NextFile in TheFolder.GetFiles())
             {
                 this.listbSentence.Items.Add(NextFile.Name);
-                this.fileDir
+
             }
         }
 
         private void insert_Click(object sender, EventArgs e)
         {
+           
 
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-
-            //文件路径，应该改为遍历文件夹类型
-            string text_path = @"C:\Users\ludwig\Documents\sentence.txt";
-
-            StreamReader sr = File.OpenText(text_path);
-            string sentence = sr.ReadToEnd();
-
-            string[] split_s = sentence.Split(new char[] { '.' });
-
-
-            //database 路径，相对路径！！！！！！！
-  //       string path = @"C:\Users\ludwig\Documents\Visual Studio 2010\Projects\sentence\sentence\db\sentence.db";
-  //         
-            string sysPath = System.Windows.Forms.Application.StartupPath + @"../../../";
-            System.IO.Directory.SetCurrentDirectory(sysPath);
-            string path = System.IO.Directory.GetCurrentDirectory() + @"\db\sentence.db";
-            
- //           Console.WriteLine(path);
-
-            string sConn = SQLiteConnectionString.GetConnectionString(path)  ;
-
-            SQLiteConnection conn = new SQLiteConnection(sConn);
-
-            try
-            {
-                conn.Open();
-            }
-            catch (Exception)
-            {
-                //为什么链接失败也不会结束？
-                //为什么程序自己会创建一个sentence.db文件？
-                MessageBox.Show(path+"\n找不到数据库数据文件！");
-                System.Environment.Exit(0);
-            }
-
-            Console.WriteLine(conn.FileName);
-
-            using (SQLiteCommand cmd = conn.CreateCommand())
-            {
-                IDbTransaction trans = conn.BeginTransaction();
-                try
-                {
-                    for (int i = 0; i < split_s.Length; i++)
-                    {
-                        cmd.CommandText = "insert into (@file) (sentence) values (@sentence);";
-                        cmd.Parameters.Add(new SQLiteParameter("@file"));
-                        cmd.Parameters["@"].Value = split_s[i];
-
-                        cmd.Parameters.Add(new SQLiteParameter("@sentence"));
-                        cmd.Parameters["@sentence"].Value = split_s[i];
-
-                        cmd.ExecuteNonQuery();
-                    }
-                    trans.Commit();
-
-                }
-                catch (Exception)
-                {
-                    trans.Rollback();
-                    //这个throw 如何捕获？
-                    throw;
-                }
-
-                conn.Close();
-                stopwatch.Stop();
-                Console.WriteLine(stopwatch.Elapsed);
-            }
         }
 
         private void btnFile_Click(object sender, EventArgs e)
