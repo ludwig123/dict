@@ -40,17 +40,19 @@ namespace sentence
       {
 
 
+          public string DBPath(){
+               string sysPath = System.Windows.Forms.Application.StartupPath + @"../../../";
+              System.IO.Directory.SetCurrentDirectory(sysPath);
+              string path = System.IO.Directory.GetCurrentDirectory() + @"\db\sentence.db";
+              return path;
+          }
+          
           //所有文件的路径集合
           public DBConnection()
           {
 
-              string sysPath = System.Windows.Forms.Application.StartupPath + @"../../../";
-              System.IO.Directory.SetCurrentDirectory(sysPath);
-              string path = System.IO.Directory.GetCurrentDirectory() + @"\db\sentence.db";
 
-              //           Console.WriteLine(path);
-
-              string sConn = SQLiteConnectionString.GetConnectionString(path);
+              string sConn = SQLiteConnectionString.GetConnectionString( DBPath() );
 
               SQLiteConnection conn = new SQLiteConnection(sConn);
 
@@ -114,13 +116,19 @@ namespace sentence
 
       }
 
-      public class FileReader
+      public class SentcHandler
       {
-          XmlDocument conf = null;
-          XmlElement foldPath = null;
+          public bool CreatDB(){
+          }
           
-          public string foldPath(){
-              
+          public bool RefreshDB{
+          }
+
+          private bool IsDBReady{
+
+          }
+    
+
           }
 
       }

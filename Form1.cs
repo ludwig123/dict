@@ -56,6 +56,7 @@ namespace sentence
 
         private void btnFile_Click(object sender, EventArgs e)
         {
+
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Multiselect = true;
             fileDialog.Title = "请选择文件";
@@ -65,6 +66,7 @@ namespace sentence
                 filePath = fileDialog.FileName;
                 MessageBox.Show("已选择文件:" + filePath, "选择文件提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        
         }
 
         private void btnPath_Click(object sender, EventArgs e)
