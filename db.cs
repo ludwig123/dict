@@ -164,15 +164,50 @@ return true;
           {
               using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
               {
-                  cmd.CommandText = "CREATE TABLE `(@tableName)` (`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,`sentence`	INTEGER NOT NULL);";
+                  cmd.CommandText = "CREATE TABLE `" + tableName + "` (`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,`sentence`	INTEGER NOT NULL);";
 
-                  cmd.Parameters.Add(new SQLiteParameter("@tableName"));
-                  cmd.Parameters["@tableName"].Value = tableName;
+                  //cmd.Parameters.Add(new SQLiteParameter("@tableName"));
+                  //cmd.Parameters["@tableName"].Value = tableName;
                   cmd.ExecuteNonQuery();
-
 
               }
           }
 
+           public void WriteFileInfo(string targetDirectory, SQLiteConnection sqliteConnection)
+           {
+                             using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
+              {
+                  cmd.CommandText = "CREATE TABLE `" + tableName + "` (`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,`sentence`	INTEGER NOT NULL);";
+
+                  //cmd.Parameters.Add(new SQLiteParameter("@tableName"));
+                  //cmd.Parameters["@tableName"].Value = tableName;
+                  cmd.ExecuteNonQuery();
+                             }
+           }
+          public void WriteTable(string tableName, SQLiteConnection sqliteConnection)
+          {
+                using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
+              {
+                  IDbTransaction trans = sqliteConnection.BeginTransaction();
+                  try
+                  {
+                      //以 .  切分句子
+                      StreamReader sr = File.OpenText(filePath);
+                      string sentence = sr.ReadToEnd();
+                      string[] split_s = sentence.Split(new char[] { '.' });
+
+
+                      //should create a table named as filename
+                      for (int i = 0; i < split_s.Length; i++)
+                      {
+                          cmd.CommandText = "insert into (@file) (sentence) values (@sentence);";
+                          cmd.Parameters.Add(new SQLiteParameter("@file"));
+                          cmd.Parameters["@file"].Value = Path.GetFileNameWithoutExtension(filePath);
+
+                          cmd.Parameters.Add(new SQLiteParameter("@sentence"));
+                          cmd.Parameters["@sentence"].Value = split_s[i];
+
+                          cmd.ExecuteNonQuery();
+          }
       }
   }
