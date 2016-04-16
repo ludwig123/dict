@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.insert = new System.Windows.Forms.Button();
@@ -98,6 +98,9 @@
             // 
             // panel1
             // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.listbSentence);
             this.panel1.Controls.Add(this.listbFile);
             this.panel1.Location = new System.Drawing.Point(12, 383);
@@ -107,21 +110,27 @@
             // 
             // listbSentence
             // 
+            this.listbSentence.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.listbSentence.FormattingEnabled = true;
             this.listbSentence.ItemHeight = 12;
             this.listbSentence.Location = new System.Drawing.Point(165, 4);
             this.listbSentence.Name = "listbSentence";
-            this.listbSentence.Size = new System.Drawing.Size(445, 340);
+            this.listbSentence.Size = new System.Drawing.Size(324, 340);
             this.listbSentence.TabIndex = 1;
             // 
             // listbFile
             // 
+            this.listbFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.listbFile.FormattingEnabled = true;
             this.listbFile.ItemHeight = 12;
             this.listbFile.Location = new System.Drawing.Point(4, 4);
             this.listbFile.Name = "listbFile";
             this.listbFile.Size = new System.Drawing.Size(155, 340);
             this.listbFile.TabIndex = 0;
+            this.listbFile.SelectedIndexChanged += new System.EventHandler(this.listbFile_SelectedIndexChanged);
             // 
             // comboBox
             // 
@@ -165,6 +174,8 @@
             // 
             this.dgv.AllowUserToResizeColumns = false;
             this.dgv.AllowUserToResizeRows = false;
+            this.dgv.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.paragraph,
@@ -178,9 +189,9 @@
             // 
             // paragraph
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.CornflowerBlue;
-            this.paragraph.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.CornflowerBlue;
+            this.paragraph.DefaultCellStyle = dataGridViewCellStyle6;
             this.paragraph.HeaderText = "文件列表";
             this.paragraph.Name = "paragraph";
             this.paragraph.ReadOnly = true;
