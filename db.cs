@@ -64,14 +64,44 @@ namespace sentence
               {
                   //为什么链接失败也不会结束？
                   //为什么程序自己会创建一个sentence.db文件？
-                  MessageBox.Show(path + "\n找不到数据库数据文件！");
+                  MessageBox.Show("\n找不到数据库数据文件！");
                   System.Environment.Exit(0);
               }
 
               Console.WriteLine(conn.FileName);
 
+
+
               Stopwatch stopwatch = new Stopwatch();
               stopwatch.Start();
+
+
+              File2DB(filePath, conn);
+             
+                  stopwatch.Stop();
+                  Console.WriteLine(stopwatch.Elapsed);
+              }
+
+
+          public bool Fold2DB(DirectoryInfo dbDir, SQLiteConnection conn)
+          {
+              string searchPattern = @"*.txt";
+
+              foreach (DirectoryInfo NextFolder in dbDir.GetDirectories())
+              {
+
+                  foreach (FileInfo NextFile in dbDir.GetFiles(searchPattern))
+                  {
+                      string filePath = NextFile.ToString();
+                      File2DB(filePath, conn);
+                  }
+                  
+              }
+              return true;
+
+              
+          }
+          public bool File2DB(string filePath2, SQLiteConnection conn){
 
               using (SQLiteCommand cmd = conn.CreateCommand())
               {
@@ -80,8 +110,8 @@ namespace sentence
                   {
 
                       //文件路径，应该改为遍历文件夹类型
-                      string textPath = @"C:\Users\ludwig\Documents\sentence.txt";
-                      StreamReader sr = File.OpenText(textPath);
+                      string filePath = @"C:\Users\ludwig\Documents\sentence.txt";
+                      StreamReader sr = File.OpenText(filePath);
                       string sentence = sr.ReadToEnd();
                       string[] split_s = sentence.Split(new char[] { '.' });
 
@@ -91,13 +121,15 @@ namespace sentence
                       {
                           cmd.CommandText = "insert into (@file) (sentence) values (@sentence);";
                           cmd.Parameters.Add(new SQLiteParameter("@file"));
-                          cmd.Parameters["@file"].Value = Path.GetFileNameWithoutExtension(textPath);
+                          cmd.Parameters["@file"].Value = Path.GetFileNameWithoutExtension(filePath);
 
                           cmd.Parameters.Add(new SQLiteParameter("@sentence"));
                           cmd.Parameters["@sentence"].Value = split_s[i];
 
                           cmd.ExecuteNonQuery();
                       }
+
+
                       trans.Commit();
 
                   }
@@ -109,12 +141,9 @@ namespace sentence
                   }
 
                   conn.Close();
-                  stopwatch.Stop();
-                  Console.WriteLine(stopwatch.Elapsed);
-              }
+return true;
           }
-
-      }
+}
 
       public class SentcHandler
       {
