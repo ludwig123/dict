@@ -38,8 +38,9 @@ namespace sentence
     //connect sqlite connection
       public class DBConnection
       {
-
-
+          //自动查找安装目录
+          //当前目录是sentence/bin/debug/sentence.exe   
+          //转到sentence/db/sentence.db
           public string DBPath(){
                string sysPath = System.Windows.Forms.Application.StartupPath + @"../../../";
               System.IO.Directory.SetCurrentDirectory(sysPath);
@@ -56,10 +57,7 @@ namespace sentence
 
               SQLiteConnection conn = new SQLiteConnection(sConn);
 
-              try
-              {
-                  conn.Open();
-              }
+              try { conn.Open();  }
               catch (Exception)
               {
                   //为什么链接失败也不会结束？
@@ -69,21 +67,11 @@ namespace sentence
               }
 
               Console.WriteLine(conn.FileName);
-
-
-
-              Stopwatch stopwatch = new Stopwatch();
-              stopwatch.Start();
-
-
-              File2DB(filePath, conn);
-             
-                  stopwatch.Stop();
-                  Console.WriteLine(stopwatch.Elapsed);
               }
 
 
-          public bool Fold2DB(DirectoryInfo dbDir, SQLiteConnection conn)
+
+          public bool Fold2DB(DirectoryInfo dbDir, SQLiteConnection sqliteConnection)
           {
               string searchPattern = @"*.txt";
 
@@ -93,7 +81,7 @@ namespace sentence
                   foreach (FileInfo NextFile in dbDir.GetFiles(searchPattern))
                   {
                       string filePath = NextFile.ToString();
-                      File2DB(filePath, conn);
+                      File2DB(filePath, sqliteConnection);
                   }
                   
               }
@@ -101,16 +89,14 @@ namespace sentence
 
               
           }
-          public bool File2DB(string filePath2, SQLiteConnection conn){
+          public bool File2DB(string filePath, SQLiteConnection sqliteConnection){
 
-              using (SQLiteCommand cmd = conn.CreateCommand())
+              using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
               {
-                  IDbTransaction trans = conn.BeginTransaction();
+                  IDbTransaction trans = sqliteConnection.BeginTransaction();
                   try
                   {
-
-                      //文件路径，应该改为遍历文件夹类型
-                      string filePath = @"C:\Users\ludwig\Documents\sentence.txt";
+                      //以 .  切分句子
                       StreamReader sr = File.OpenText(filePath);
                       string sentence = sr.ReadToEnd();
                       string[] split_s = sentence.Split(new char[] { '.' });
@@ -140,22 +126,22 @@ namespace sentence
                       throw;
                   }
 
-                  conn.Close();
+                  sqliteConnection.Close();
 return true;
           }
 }
 
       public class SentcHandler
       {
-          public bool CreatDB(){
-          }
+          //public bool CreatDB(){
+          //}
           
-          public bool RefreshDB{
-          }
+          //public bool RefreshDB{
+          //}
 
-          private bool IsDBReady{
+          //private bool IsDBReady{
 
-          }
+          //}
     
 
           }

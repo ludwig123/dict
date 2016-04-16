@@ -20,6 +20,7 @@ namespace sentence
         // global enviriment variables;
         public string foldPath = null;
         public string filePath = null;
+        public string DBPath = null;
 
 
         public Form1()
@@ -30,11 +31,11 @@ namespace sentence
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //if (foldPath == null || filePath == null)
-            //{
-            //    MessageBox.Show("please choos fold or file");
-            //    btn_Path.PerformClick();
-            //}
+            if (foldPath == null || filePath == null)
+            {
+                MessageBox.Show("please choos fold or file");
+                btn_Path.PerformClick();
+            }
 
             DirectoryInfo TheFolder = new DirectoryInfo(foldPath);
             //遍历文件夹
