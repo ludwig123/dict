@@ -107,7 +107,13 @@ namespace sentence
 
         private void insert_Click(object sender, EventArgs e)
         {
-  
+            string hello = @"hello";
+            DBConnection conn = new DBConnection();
+           SQLiteConnection myconn =  conn.Start(conn.DBPath());
+           DBOperate createTable = new DBOperate();
+           createTable.CreateTable(hello,myconn);
+
+
 
         }
 

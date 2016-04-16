@@ -38,26 +38,29 @@ namespace sentence
     //connect sqlite connection
       public class DBConnection
       {
+
           //自动查找安装目录
           //当前目录是sentence/bin/debug/sentence.exe   
           //转到sentence/db/sentence.db
-          public string DBPath(){
-               string sysPath = System.Windows.Forms.Application.StartupPath + @"../../../";
+          public string DBPath()
+          {
+              string sysPath = System.Windows.Forms.Application.StartupPath + @"../../../";
               System.IO.Directory.SetCurrentDirectory(sysPath);
               string path = System.IO.Directory.GetCurrentDirectory() + @"\db\sentence.db";
               return path;
           }
           
-          //所有文件的路径集合
           public DBConnection()
           {
+          }
 
-
-              string sConn = SQLiteConnectionString.GetConnectionString( DBPath() );
+          public SQLiteConnection Start( string DBPath)
+          {
+              string sConn = SQLiteConnectionString.GetConnectionString(DBPath);
 
               SQLiteConnection conn = new SQLiteConnection(sConn);
 
-              try { conn.Open();  }
+              try { conn.Open(); }
               catch (Exception)
               {
                   //为什么链接失败也不会结束？
@@ -67,9 +70,13 @@ namespace sentence
               }
 
               Console.WriteLine(conn.FileName);
-              }
+              return conn;
+          }
 
-
+          public void End(SQLiteConnection sqliteConnection )
+          {
+              sqliteConnection.Close();
+          }
 
           public bool Fold2DB(DirectoryInfo dbDir, SQLiteConnection sqliteConnection)
           {
@@ -144,6 +151,27 @@ return true;
           //}
     
 
+          }
+
+      }
+
+      public class DBOperate
+      {
+          public DBOperate()
+          {
+          }
+          public void CreateTable(string tableName, SQLiteConnection sqliteConnection)
+          {
+              using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
+              {
+                  cmd.CommandText = "CREATE TABLE `(@tableName)` (`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,`sentence`	INTEGER NOT NULL);";
+
+                  cmd.Parameters.Add(new SQLiteParameter("@tableName"));
+                  cmd.Parameters["@tableName"].Value = tableName;
+                  cmd.ExecuteNonQuery();
+
+
+              }
           }
 
       }
