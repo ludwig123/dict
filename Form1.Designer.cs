@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.insert = new System.Windows.Forms.Button();
@@ -42,13 +41,9 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.dgv = new System.Windows.Forms.DataGridView();
-            this.paragraph = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sentence = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
             // fileSystemWatcher1
@@ -103,10 +98,11 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.listbSentence);
             this.panel1.Controls.Add(this.listbFile);
-            this.panel1.Location = new System.Drawing.Point(12, 383);
+            this.panel1.Location = new System.Drawing.Point(12, 78);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(718, 108);
+            this.panel1.Size = new System.Drawing.Size(718, 372);
             this.panel1.TabIndex = 7;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // listbSentence
             // 
@@ -117,7 +113,7 @@
             this.listbSentence.ItemHeight = 12;
             this.listbSentence.Location = new System.Drawing.Point(165, 4);
             this.listbSentence.Name = "listbSentence";
-            this.listbSentence.Size = new System.Drawing.Size(324, 340);
+            this.listbSentence.Size = new System.Drawing.Size(324, 604);
             this.listbSentence.TabIndex = 1;
             // 
             // listbFile
@@ -128,7 +124,7 @@
             this.listbFile.ItemHeight = 12;
             this.listbFile.Location = new System.Drawing.Point(4, 4);
             this.listbFile.Name = "listbFile";
-            this.listbFile.Size = new System.Drawing.Size(155, 340);
+            this.listbFile.Size = new System.Drawing.Size(155, 604);
             this.listbFile.TabIndex = 0;
             this.listbFile.SelectedIndexChanged += new System.EventHandler(this.listbFile_SelectedIndexChanged);
             // 
@@ -165,51 +161,16 @@
             this.panel2.Controls.Add(this.comboBox);
             this.panel2.Controls.Add(this.btnSearch);
             this.panel2.Controls.Add(this.textBox1);
-            this.panel2.Location = new System.Drawing.Point(12, 346);
+            this.panel2.Location = new System.Drawing.Point(12, 41);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(718, 31);
             this.panel2.TabIndex = 11;
-            // 
-            // dgv
-            // 
-            this.dgv.AllowUserToResizeColumns = false;
-            this.dgv.AllowUserToResizeRows = false;
-            this.dgv.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.paragraph,
-            this.sentence});
-            this.dgv.GridColor = System.Drawing.SystemColors.Window;
-            this.dgv.Location = new System.Drawing.Point(38, 52);
-            this.dgv.Name = "dgv";
-            this.dgv.RowTemplate.Height = 23;
-            this.dgv.Size = new System.Drawing.Size(565, 288);
-            this.dgv.TabIndex = 12;
-            // 
-            // paragraph
-            // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.CornflowerBlue;
-            this.paragraph.DefaultCellStyle = dataGridViewCellStyle6;
-            this.paragraph.HeaderText = "文件列表";
-            this.paragraph.Name = "paragraph";
-            this.paragraph.ReadOnly = true;
-            this.paragraph.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.paragraph.ToolTipText = "文件列表2";
-            // 
-            // sentence
-            // 
-            this.sentence.HeaderText = "句子列表";
-            this.sentence.Name = "sentence";
-            this.sentence.Width = 400;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(742, 503);
-            this.Controls.Add(this.dgv);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnOpen);
@@ -223,7 +184,6 @@
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -243,9 +203,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ListBox listbSentence;
         private System.Windows.Forms.ListBox listbFile;
-        private System.Windows.Forms.DataGridView dgv;
-        private System.Windows.Forms.DataGridViewTextBoxColumn paragraph;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sentence;
     }
 }
 

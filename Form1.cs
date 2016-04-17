@@ -153,6 +153,11 @@ namespace sentence
             string curItem = listbFile.SelectedItem.ToString();
 
         }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
 
