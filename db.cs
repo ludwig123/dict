@@ -13,201 +13,244 @@ using System.Xml;
 namespace sentence
 {
     //create datapath for sqlite
-      public static class SQLiteConnectionString  
-    {  
-  
-        public static string GetConnectionString(string path)  
-        {  
-              return GetConnectionString(path, null);  
-        }  
+    public static class SQLiteConnectionString
+    {
 
-        public static string GetConnectionString(string path, string password)  
-        {  
-            if (string.IsNullOrEmpty(password))  
-            {  
-                return "Data Source=" + path;  
-            }  
-            else  
-            {  
-                return "Data Source=" + path + ";Password=" + password;  
-            }  
-        }  
-      }
+        public static string GetConnectionString(string path)
+        {
+            return GetConnectionString(path, null);
+        }
+
+        public static string GetConnectionString(string path, string password)
+        {
+            if (string.IsNullOrEmpty(password))
+            {
+                return "Data Source=" + path;
+            }
+            else
+            {
+                return "Data Source=" + path + ";Password=" + password;
+            }
+        }
+    }
 
 
     //connect sqlite connection
-      public class DBConnection
-      {
+    public class DBConnection
+    {
 
-          //自动查找安装目录
-          //当前目录是sentence/bin/debug/sentence.exe   
-          //转到sentence/db/sentence.db
-          public string DBPath()
-          {
-              string sysPath = System.Windows.Forms.Application.StartupPath + @"../../../";
-              System.IO.Directory.SetCurrentDirectory(sysPath);
-              string path = System.IO.Directory.GetCurrentDirectory() + @"\db\sentence.db";
-              return path;
-          }
-          
-          public DBConnection()
-          {
-          }
+        //自动查找安装目录
+        //当前目录是sentence/bin/debug/sentence.exe   
+        //转到sentence/db/sentence.db
+        public string DBPath()
+        {
+            string sysPath = System.Windows.Forms.Application.StartupPath + @"../../../";
+            System.IO.Directory.SetCurrentDirectory(sysPath);
+            string path = System.IO.Directory.GetCurrentDirectory() + @"\db\sentence.db";
+            return path;
+        }
 
-          public SQLiteConnection Start( string DBPath)
-          {
-              string sConn = SQLiteConnectionString.GetConnectionString(DBPath);
+        public DBConnection()
+        {
+        }
 
-              SQLiteConnection conn = new SQLiteConnection(sConn);
+        public SQLiteConnection Start(string DBPath)
+        {
+            string sConn = SQLiteConnectionString.GetConnectionString(DBPath);
 
-              try { conn.Open(); }
-              catch (Exception)
-              {
-                  //为什么链接失败也不会结束？
-                  //为什么程序自己会创建一个sentence.db文件？
-                  MessageBox.Show("\n找不到数据库数据文件！");
-                  System.Environment.Exit(0);
-              }
+            SQLiteConnection conn = new SQLiteConnection(sConn);
 
-              Console.WriteLine(conn.FileName);
-              return conn;
-          }
+            try { conn.Open(); }
+            catch (Exception)
+            {
+                //为什么链接失败也不会结束？
+                //为什么程序自己会创建一个sentence.db文件？
+                MessageBox.Show("\n找不到数据库数据文件！");
+                System.Environment.Exit(0);
+            }
 
-          public void End(SQLiteConnection sqliteConnection )
-          {
-              sqliteConnection.Close();
-          }
+            Console.WriteLine(conn.FileName);
+            return conn;
+        }
 
-          public bool Fold2DB(DirectoryInfo dbDir, SQLiteConnection sqliteConnection)
-          {
-              string searchPattern = @"*.txt";
+        public void End(SQLiteConnection sqliteConnection)
+        {
+            sqliteConnection.Close();
+        }
 
-              foreach (DirectoryInfo NextFolder in dbDir.GetDirectories())
-              {
+        public bool Fold2DB(DirectoryInfo dbDir, SQLiteConnection sqliteConnection)
+        {
+            string searchPattern = @"*.txt";
 
-                  foreach (FileInfo NextFile in dbDir.GetFiles(searchPattern))
-                  {
-                      string filePath = NextFile.ToString();
-                      File2DB(filePath, sqliteConnection);
-                  }
-                  
-              }
-              return true;
+            foreach (DirectoryInfo NextFolder in dbDir.GetDirectories())
+            {
 
-              
-          }
-          public bool File2DB(string filePath, SQLiteConnection sqliteConnection){
+                foreach (FileInfo NextFile in dbDir.GetFiles(searchPattern))
+                {
+                    string filePath = NextFile.ToString();
+                    File2DB(filePath, sqliteConnection);
+                }
 
-              using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
-              {
-                  IDbTransaction trans = sqliteConnection.BeginTransaction();
-                  try
-                  {
-                      //以 .  切分句子
-                      StreamReader sr = File.OpenText(filePath);
-                      string sentence = sr.ReadToEnd();
-                      string[] split_s = sentence.Split(new char[] { '.' });
+            }
+            return true;
 
 
-                      //should create a table named as filename
-                      for (int i = 0; i < split_s.Length; i++)
-                      {
-                          cmd.CommandText = "insert into (@file) (sentence) values (@sentence);";
-                          cmd.Parameters.Add(new SQLiteParameter("@file"));
-                          cmd.Parameters["@file"].Value = Path.GetFileNameWithoutExtension(filePath);
+        }
+        public bool File2DB(string filePath, SQLiteConnection sqliteConnection)
+        {
 
-                          cmd.Parameters.Add(new SQLiteParameter("@sentence"));
-                          cmd.Parameters["@sentence"].Value = split_s[i];
+            using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
+            {
+                IDbTransaction trans = sqliteConnection.BeginTransaction();
+                try
+                {
+                    //以 .  切分句子
+                    StreamReader sr = File.OpenText(filePath);
+                    string sentence = sr.ReadToEnd();
+                    string[] split_s = sentence.Split(new char[] { '.' });
 
-                          cmd.ExecuteNonQuery();
-                      }
+
+                    //should create a table named as filename
+                    for (int i = 0; i < split_s.Length; i++)
+                    {
+                        cmd.CommandText = "insert into (@file) (sentence) values (@sentence);";
+                        cmd.Parameters.Add(new SQLiteParameter("@file"));
+                        cmd.Parameters["@file"].Value = Path.GetFileNameWithoutExtension(filePath);
+
+                        cmd.Parameters.Add(new SQLiteParameter("@sentence"));
+                        cmd.Parameters["@sentence"].Value = split_s[i];
+
+                        cmd.ExecuteNonQuery();
+                    }
 
 
-                      trans.Commit();
+                    trans.Commit();
 
-                  }
-                  catch (Exception)
-                  {
-                      trans.Rollback();
-                      //这个throw 如何捕获？
-                      throw;
-                  }
+                }
+                catch (Exception)
+                {
+                    trans.Rollback();
+                    //这个throw 如何捕获？
+                    throw;
+                }
 
-                  sqliteConnection.Close();
-return true;
-          }
-}
+                sqliteConnection.Close();
+                return true;
+            }
+        }
+    }
+    public class SentcHandler
+        {
+            //public bool CreatDB(){
+            //}
 
-      public class SentcHandler
-      {
-          //public bool CreatDB(){
-          //}
-          
-          //public bool RefreshDB{
-          //}
+            //public bool RefreshDB{
+            //}
 
-          //private bool IsDBReady{
+            //private bool IsDBReady{
 
-          //}
-    
+            //}
 
-          }
 
-      }
+        }
 
-      public class DBOperate
-      {
-          public DBOperate()
-          {
-          }
-          public void CreateTable(string tableName, SQLiteConnection sqliteConnection)
-          {
-              using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
-              {
-                  cmd.CommandText = "CREATE TABLE `" + tableName + "` (`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,`sentence`	INTEGER NOT NULL);";
 
-                  //cmd.Parameters.Add(new SQLiteParameter("@tableName"));
-                  //cmd.Parameters["@tableName"].Value = tableName;
-                  cmd.ExecuteNonQuery();
 
-              }
-          }
-
-           public void WriteFileInfo(string targetDirectory, SQLiteConnection sqliteConnection)
-           {
-                             using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
-              {
-                  cmd.CommandText = "CREATE TABLE `" + tableName + "` (`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,`sentence`	INTEGER NOT NULL);";
-
-                  //cmd.Parameters.Add(new SQLiteParameter("@tableName"));
-                  //cmd.Parameters["@tableName"].Value = tableName;
-                  cmd.ExecuteNonQuery();
-                             }
-           }
-          public void WriteTable(string tableName, SQLiteConnection sqliteConnection)
-          {
+     public class DBOperate
+        {
+            public DBOperate()
+            {
+            }
+            public void CreateTable(string tableName, SQLiteConnection sqliteConnection)
+            {
                 using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
-              {
-                  IDbTransaction trans = sqliteConnection.BeginTransaction();
-                  try
-                  {
-                      //以 .  切分句子
-                      StreamReader sr = File.OpenText(filePath);
-                      string sentence = sr.ReadToEnd();
-                      string[] split_s = sentence.Split(new char[] { '.' });
+                {
+                    cmd.CommandText = "CREATE TABLE `" + tableName + "` (`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,`sentence`	INTEGER NOT NULL);";
+
+                    //cmd.Parameters.Add(new SQLiteParameter("@tableName"));
+                    //cmd.Parameters["@tableName"].Value = tableName;
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+
+            public bool isModified(string filePath)
+            {
+
+            }
+            public DateTime lastModifyTime(string filePath)
+            {
+                FileInfo fileinfo = new FileInfo(filePath);
+                return fileinfo.LastWriteTime;
+            }
+
+            //查询并返回修改过的文件的列表，文件名和最后的修改时间
+            public Array ModifiedFlies(string dbPath, string foldPath)
+            {
+
+            }
+
+            public Array Search(string keyWord)
+            {
+
+            }
 
 
-                      //should create a table named as filename
-                      for (int i = 0; i < split_s.Length; i++)
-                      {
-                          cmd.CommandText = "insert into (@file) (sentence) values (@sentence);";
-                          cmd.Parameters.Add(new SQLiteParameter("@file"));
-                          cmd.Parameters["@file"].Value = Path.GetFileNameWithoutExtension(filePath);
+            public void WriteFileInfo(string targetFile, SQLiteConnection sqliteConnection)
+            {
 
-                          cmd.Parameters.Add(new SQLiteParameter("@sentence"));
-                          cmd.Parameters["@sentence"].Value = split_s[i];
+                string fileName = @"sb", filePath = @"d://";
+                using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
+                {
+                    cmd.CommandText = "insert into files values ('" + fileName + "', '" + filePath + "',(datetime('now','localtime')));";
 
-                          cmd.ExecuteNonQuery();
-          }
-      }
-  }
+
+                    cmd.CommandText = "insert into (@file) (sentence) values (@sentence);";
+                    cmd.Parameters.Add(new SQLiteParameter("@file"));
+                    cmd.Parameters["@file"].Value = Path.GetFileNameWithoutExtension(filePath);
+
+                    //cmd.Parameters.Add(new SQLiteParameter("@tableName"));
+                    //cmd.Parameters["@tableName"].Value = tableName;
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+
+            public void WriteTable(string tableName, SQLiteConnection sqliteConnection)
+            {
+                using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
+                {
+                    IDbTransaction trans = sqliteConnection.BeginTransaction();
+                    try
+                    {
+                        //以 .  切分句子
+                        StreamReader sr = File.OpenText(filePath);
+                        string sentence = sr.ReadToEnd();
+                        string[] split_s = sentence.Split(new char[] { '.' });
+
+
+                        //should create a table named as filename
+                        for (int i = 0; i < split_s.Length; i++)
+                        {
+                            cmd.CommandText = "insert into (@file) (sentence) values (@sentence);";
+                            cmd.Parameters.Add(new SQLiteParameter("@file"));
+                            cmd.Parameters["@file"].Value = Path.GetFileNameWithoutExtension(filePath);
+
+                            cmd.Parameters.Add(new SQLiteParameter("@sentence"));
+                            cmd.Parameters["@sentence"].Value = split_s[i];
+
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                }
+            }
+
+        }
+    
+}
+  
+        

@@ -35,8 +35,8 @@
             this.btn_Path = new System.Windows.Forms.Button();
             this.btnOpen = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.listbSentence = new System.Windows.Forms.ListBox();
-            this.listbFile = new System.Windows.Forms.ListBox();
+            this.listbR = new System.Windows.Forms.ListBox();
+            this.listbL = new System.Windows.Forms.ListBox();
             this.comboBox = new System.Windows.Forms.ComboBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnSearch = new System.Windows.Forms.Button();
@@ -96,37 +96,37 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.listbSentence);
-            this.panel1.Controls.Add(this.listbFile);
+            this.panel1.Controls.Add(this.listbR);
+            this.panel1.Controls.Add(this.listbL);
             this.panel1.Location = new System.Drawing.Point(12, 78);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(718, 372);
             this.panel1.TabIndex = 7;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
-            // listbSentence
+            // listbR
             // 
-            this.listbSentence.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.listbR.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.listbSentence.FormattingEnabled = true;
-            this.listbSentence.ItemHeight = 12;
-            this.listbSentence.Location = new System.Drawing.Point(165, 4);
-            this.listbSentence.Name = "listbSentence";
-            this.listbSentence.Size = new System.Drawing.Size(324, 604);
-            this.listbSentence.TabIndex = 1;
+            this.listbR.FormattingEnabled = true;
+            this.listbR.ItemHeight = 12;
+            this.listbR.Location = new System.Drawing.Point(165, 4);
+            this.listbR.Name = "listbR";
+            this.listbR.Size = new System.Drawing.Size(324, 604);
+            this.listbR.TabIndex = 1;
             // 
-            // listbFile
+            // listbL
             // 
-            this.listbFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.listbL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)));
-            this.listbFile.FormattingEnabled = true;
-            this.listbFile.ItemHeight = 12;
-            this.listbFile.Location = new System.Drawing.Point(4, 4);
-            this.listbFile.Name = "listbFile";
-            this.listbFile.Size = new System.Drawing.Size(155, 604);
-            this.listbFile.TabIndex = 0;
-            this.listbFile.SelectedIndexChanged += new System.EventHandler(this.listbFile_SelectedIndexChanged);
+            this.listbL.FormattingEnabled = true;
+            this.listbL.ItemHeight = 12;
+            this.listbL.Location = new System.Drawing.Point(4, 4);
+            this.listbL.Name = "listbL";
+            this.listbL.Size = new System.Drawing.Size(155, 604);
+            this.listbL.TabIndex = 0;
+            this.listbL.SelectedIndexChanged += new System.EventHandler(this.listbFile_SelectedIndexChanged);
             // 
             // comboBox
             // 
@@ -201,8 +201,8 @@
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.ListBox listbSentence;
-        private System.Windows.Forms.ListBox listbFile;
+        private System.Windows.Forms.ListBox listbR;
+        private System.Windows.Forms.ListBox listbL;
     }
 }
 

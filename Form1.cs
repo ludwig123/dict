@@ -43,6 +43,21 @@ namespace sentence
 
         }
 
+        public void DispayListboxR(ArrayList arrayList)
+        {
+            foreach (string path in arrayList)
+            {
+                this.listbR.Items.Add(path);
+            }
+        }
+
+         public void DispayListboxL(ArrayList arrayList)
+        {
+            foreach (string path in arrayList)
+            {
+                this.listbL.Items.Add(path);
+            }
+        }
 
         public void ProcessDirectory(string targetDirectory)
         {
@@ -52,11 +67,12 @@ namespace sentence
             ArrayList files = new ArrayList();
             // Process the list of files found in the directory.
             string[] fileEntries = Directory.GetFiles(targetDirectory,searchPattern);
+
+
             foreach (string fileName in fileEntries)
             {
                 //这里fileName是绝对路径
                 files.Add(fileName);
-//                ProcessFile(fileName);
             }
 
             // Recurse into subdirectories of this directory.
@@ -67,16 +83,9 @@ namespace sentence
 
             foreach (string path in files)
             {
-                this.listbSentence.Items.Add(path);
+                this.listbR.Items.Add(path);
             }
         }
-
-        // Insert logic for processing found files here.
-        //public  void ProcessFile(string path)
-        //{
-           
-        //    Console.WriteLine("Processed file '{0}'.", path);
-        //}
 
 
         public void DisplayFold(string foldPath)
@@ -110,11 +119,9 @@ namespace sentence
             string hello = @"hello";
             DBConnection conn = new DBConnection();
            SQLiteConnection myconn =  conn.Start(conn.DBPath());
+            
            DBOperate createTable = new DBOperate();
            createTable.CreateTable(hello,myconn);
-
-
-
         }
 
         private void btnFile_Click(object sender, EventArgs e)
@@ -129,7 +136,6 @@ namespace sentence
                 filePath = fileDialog.FileName;
                 MessageBox.Show("已选择文件:" + filePath, "选择文件提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
         }
 
         private void btnPath_Click(object sender, EventArgs e)
@@ -143,6 +149,7 @@ namespace sentence
             }
         }
 
+        //打开文件库
         private void btnOpen_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("Explorer.exe", foldPath);
@@ -150,7 +157,7 @@ namespace sentence
 
         private void listbFile_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string curItem = listbFile.SelectedItem.ToString();
+            string curItem = listbL.SelectedItem.ToString();
 
         }
 
