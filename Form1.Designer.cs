@@ -38,7 +38,7 @@
             this.listbR = new System.Windows.Forms.ListBox();
             this.listbL = new System.Windows.Forms.ListBox();
             this.comboBox = new System.Windows.Forms.ComboBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.searchBox = new System.Windows.Forms.TextBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
@@ -115,6 +115,7 @@
             this.listbR.Name = "listbR";
             this.listbR.Size = new System.Drawing.Size(324, 604);
             this.listbR.TabIndex = 1;
+            this.listbR.DoubleClick += new System.EventHandler(this.listbR_DoubleClick);
             // 
             // listbL
             // 
@@ -140,12 +141,12 @@
             this.comboBox.Size = new System.Drawing.Size(155, 20);
             this.comboBox.TabIndex = 8;
             // 
-            // textBox1
+            // searchBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(165, 3);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(374, 21);
-            this.textBox1.TabIndex = 9;
+            this.searchBox.Location = new System.Drawing.Point(165, 3);
+            this.searchBox.Name = "searchBox";
+            this.searchBox.Size = new System.Drawing.Size(374, 21);
+            this.searchBox.TabIndex = 9;
             // 
             // btnSearch
             // 
@@ -160,7 +161,7 @@
             // 
             this.panel2.Controls.Add(this.comboBox);
             this.panel2.Controls.Add(this.btnSearch);
-            this.panel2.Controls.Add(this.textBox1);
+            this.panel2.Controls.Add(this.searchBox);
             this.panel2.Location = new System.Drawing.Point(12, 41);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(718, 31);
@@ -199,7 +200,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ComboBox comboBox;
         private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox searchBox;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ListBox listbR;
         private System.Windows.Forms.ListBox listbL;

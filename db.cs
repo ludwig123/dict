@@ -195,7 +195,13 @@ namespace sentence
 
             }
 
+            public string createREG(string keyWord)
+            {
+                string stringREG = "%" + keyWord + "%";
+                return stringREG;
+            }
 
+         public 
             public void WriteFileInfo(string targetFile, SQLiteConnection sqliteConnection)
             {
 

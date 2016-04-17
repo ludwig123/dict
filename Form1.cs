@@ -165,6 +165,16 @@ namespace sentence
         {
 
         }
+
+        private void listbR_DoubleClick(object sender, EventArgs e)
+        {
+
+            this.searchBox.Location = new System.Drawing.Point(165, 3);
+            this.searchBox.Name = "searchBox";
+            this.searchBox.Size = new System.Drawing.Size(374, 21);
+//            this.searchBox.TabIndex = 9;
+        }
+
     }
 }
 
