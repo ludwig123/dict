@@ -230,12 +230,25 @@ namespace sentence
                 }
             }
 
-            public void ReadFileInfo(string targetFile, SQLiteConnection sqliteConnection)
+         //返回单行信息
+            public SQLiteDataReader ReadFileInfo(string targetFile, SQLiteConnection sqliteConnection)
             {
                 using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
                 {
-                    cmd.CommandText = "select * from files where name like '" + targetFile +"';";
-                    cmd.ExecuteNonQuery();
+                    //cmd.CommandText = "select * from files where name like @filePath;";
+                    //cmd.Parameters.AddWithValue("@filePath", targetFile);
+
+                    //test语句
+                    cmd.CommandText = "select * from files ;";
+                    SQLiteDataReader fileInfoReader = cmd.ExecuteReader(CommandBehavior.SingleRow);
+                    
+                    
+                    while (fileInfoReader.Read())
+                    {
+
+                        Console.WriteLine(fileInfoReader.GetString(0) + " " + fileInfoReader.GetString(1) + " " + fileInfoReader.GetInt64(2));
+                    }  
+                    return fileInfoReader;
                 }
             }
 

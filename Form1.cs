@@ -131,10 +131,17 @@ namespace sentence
             //Console.WriteLine( test2.ToFileTimeUtc());
 
             //测试写入文件信息功能
+            //DBConnection conn = new DBConnection();
+            //SQLiteConnection myconn = conn.Start(conn.DBPath());
+            //DBOperate test = new DBOperate();
+            //test.WriteFileInfo(filePath, myconn);
+
+            //测试读取单个文件信息
             DBConnection conn = new DBConnection();
             SQLiteConnection myconn = conn.Start(conn.DBPath());
             DBOperate test = new DBOperate();
-            test.WriteFileInfo(filePath, myconn);
+            test.ReadFileInfo(filePath, myconn);
+
 
         }
 
