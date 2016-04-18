@@ -137,10 +137,14 @@ namespace sentence
             //test.WriteFileInfo(filePath, myconn);
 
             //测试读取单个文件信息
-            DBConnection conn = new DBConnection();
-            SQLiteConnection myconn = conn.Start(conn.DBPath());
-            DBOperate test = new DBOperate();
-            test.ReadFileInfo(filePath, myconn);
+            //DBConnection conn = new DBConnection();
+            //SQLiteConnection myconn = conn.Start(conn.DBPath());
+            //DBOperate test = new DBOperate();
+            //SQLiteDataReader fileInfoReader = test.ReadFileInfo(filePath, myconn);
+            //while (fileInfoReader.Read())
+            //{
+            //    Console.WriteLine(fileInfoReader.GetString(0) + " " + fileInfoReader.GetString(1) + " " + fileInfoReader.GetInt64(2));
+            //}
 
 
         }

@@ -179,7 +179,7 @@ namespace sentence
 
             //}
 
-            public  long lastModifyTime(string filePath)
+            public  long LastModifyTime(string filePath)
             {
                 long timeLong = 0;
                 FileInfo fileinfo = new FileInfo(filePath);
@@ -211,7 +211,7 @@ namespace sentence
             {
                 //temp 测试数据
                 string fileName = targetFile, filePath = targetFile;
-                long lastModifiedTime = lastModifyTime(filePath);
+                long lastModifiedTime = LastModifyTime(filePath);
 
                 using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
                 {
@@ -235,23 +235,23 @@ namespace sentence
             {
                 using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
                 {
-                    //cmd.CommandText = "select * from files where name like @filePath;";
-                    //cmd.Parameters.AddWithValue("@filePath", targetFile);
+                    cmd.CommandText = "select * from files where name like @filePath;";
+                    cmd.Parameters.AddWithValue("@filePath", targetFile);
 
-                    //test语句
-                    cmd.CommandText = "select * from files ;";
+                    ////test语句
+                    //cmd.CommandText = "select * from files ;";
+
                     SQLiteDataReader fileInfoReader = cmd.ExecuteReader(CommandBehavior.SingleRow);
-                    
-                    
-                    while (fileInfoReader.Read())
-                    {
 
-                        Console.WriteLine(fileInfoReader.GetString(0) + " " + fileInfoReader.GetString(1) + " " + fileInfoReader.GetInt64(2));
-                    }  
                     return fileInfoReader;
+                   
                 }
             }
 
+            public bool CompareLastModifiedTime(string filePath)
+            {
+                LastModifyTime(filePath) = 
+            }
            //public void WriteTable(string tableName, SQLiteConnection sqliteConnection)
            // {
            //     using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
