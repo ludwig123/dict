@@ -174,26 +174,29 @@ namespace sentence
                 }
             }
 
-            public bool isModified(string filePath)
-            {
+            //public bool isModified(string filePath)
+            //{
 
-            }
-            public DateTime lastModifyTime(string filePath)
+            //}
+            public long lastModifyTime(string filePath)
             {
+                long timeLong = 0;
                 FileInfo fileinfo = new FileInfo(filePath);
-                return fileinfo.LastWriteTime;
+                timeLong = fileinfo.LastWriteTime.ToFileTimeUtc();
+                return timeLong;
+
             }
 
             //查询并返回修改过的文件的列表，文件名和最后的修改时间
-            public Array ModifiedFlies(string dbPath, string foldPath)
-            {
+            //public Array ModifiedFlies(string dbPath, string foldPath)
+            //{
 
-            }
+            //}
 
-            public Array Search(string keyWord)
-            {
+            //public Array Search(string keyWord)
+            //{
 
-            }
+            //}
 
             public string createREG(string keyWord)
             {
@@ -201,28 +204,35 @@ namespace sentence
                 return stringREG;
             }
 
-         public 
+
             public void WriteFileInfo(string targetFile, SQLiteConnection sqliteConnection)
             {
-
+                //temp 测试数据
                 string fileName = @"sb", filePath = @"d://";
+                DirectoryInfo file = new DirectoryInfo(targetFile);
+                string lastWriteTime = file.LastWriteTime.ToUniversalTime();
+
                 using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
                 {
-                    cmd.CommandText = "insert into files values ('" + fileName + "', '" + filePath + "',(datetime('now','localtime')));";
+                    cmd.CommandText = "insert into files values ('@fileName', '@filePath', '@lastWriteTime');"
 
-
-                    cmd.CommandText = "insert into (@file) (sentence) values (@sentence);";
-                    cmd.Parameters.Add(new SQLiteParameter("@file"));
-                    cmd.Parameters["@file"].Value = Path.GetFileNameWithoutExtension(filePath);
-
-                    //cmd.Parameters.Add(new SQLiteParameter("@tableName"));
-                    //cmd.Parameters["@tableName"].Value = tableName;
+                    cmd.Parameters.AddWithValue("@fileName", fileName);
+                    cmd.Parameters.AddWithValue("@filePath", filePath);
+                    cmd.Parameters.AddWithValue("@lastModifiedTime",lastWriteTime);
                     cmd.ExecuteNonQuery();
                 }
             }
 
+            public void ReadFileInfo(string targetFile, SQLiteConnection sqliteConnection)
+            {
+                using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
+                {
+                    cmd.CommandText = "select * from files where name like '" + targetFile +"';";
+                    cmd.ExecuteNonQuery();
+                }
+            }
 
-            public void WriteTable(string tableName, SQLiteConnection sqliteConnection)
+           public void WriteTable(string tableName, SQLiteConnection sqliteConnection)
             {
                 using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
                 {
@@ -256,7 +266,34 @@ namespace sentence
             }
 
         }
-    
+
+     public static class TimeHandler
+     {
+         /// <summary>
+         /// 时间戳转为C#格式时间
+         /// </summary>
+         /// <param name="timeStamp">Unix时间戳格式</param>
+         /// <returns>C#格式时间</returns>
+         public static DateTime TimeStamp2DateTime(string timeStamp)
+         {
+             DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+             long lTime = long.Parse(timeStamp + "0000000");
+             TimeSpan toNow = new TimeSpan(lTime);
+             return dtStart.Add(toNow);
+         }
+
+         /// <summary>
+         /// DateTime时间格式转换为Unix时间戳格式
+         /// </summary>
+         /// <param name="time"> DateTime时间格式</param>
+         /// <returns>Unix时间戳格式</returns>
+         public static int DateTime2TimeStamp(System.DateTime time)
+         {
+             System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+             return (int)(time - startTime).TotalSeconds;
+         }
+
+     }
 }
   
         

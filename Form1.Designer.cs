@@ -100,7 +100,7 @@
             this.panel1.Controls.Add(this.listbL);
             this.panel1.Location = new System.Drawing.Point(12, 78);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(718, 372);
+            this.panel1.Size = new System.Drawing.Size(962, 372);
             this.panel1.TabIndex = 7;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
@@ -113,7 +113,7 @@
             this.listbR.ItemHeight = 12;
             this.listbR.Location = new System.Drawing.Point(165, 4);
             this.listbR.Name = "listbR";
-            this.listbR.Size = new System.Drawing.Size(324, 604);
+            this.listbR.Size = new System.Drawing.Size(568, 604);
             this.listbR.TabIndex = 1;
             this.listbR.DoubleClick += new System.EventHandler(this.listbR_DoubleClick);
             // 
@@ -171,7 +171,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(742, 503);
+            this.ClientSize = new System.Drawing.Size(986, 503);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnOpen);
