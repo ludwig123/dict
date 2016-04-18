@@ -33,13 +33,13 @@ namespace sentence
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (foldPath == null || filePath == null)
-            {
-                MessageBox.Show("please choos fold or file");
-                btn_Path.PerformClick();
-            }
+            //if (foldPath == null || filePath == null)
+            //{
+            //    MessageBox.Show("please choos fold or file");
+            //    btn_Path.PerformClick();
+            //}
 
-            DisplayFold(foldPath);
+            //DisplayFold(foldPath);
 
         }
 
@@ -116,12 +116,26 @@ namespace sentence
 
         private void insert_Click(object sender, EventArgs e)
         {
-            string hello = @"hello";
+            {
+                // string hello = @"hello";
+                // DBConnection conn = new DBConnection();
+                //SQLiteConnection myconn =  conn.Start(conn.DBPath());
+
+                //DBOperate createTable = new DBOperate();
+                //createTable.CreateTable(hello,myconn);
+            }
+
+            //测试Utctime
+            //DBOperate test = new DBOperate();
+            //DateTime test2 = DateTime.UtcNow;
+            //Console.WriteLine( test2.ToFileTimeUtc());
+
+            //测试写入文件信息功能
             DBConnection conn = new DBConnection();
-           SQLiteConnection myconn =  conn.Start(conn.DBPath());
-            
-           DBOperate createTable = new DBOperate();
-           createTable.CreateTable(hello,myconn);
+            SQLiteConnection myconn = conn.Start(conn.DBPath());
+            DBOperate test = new DBOperate();
+            test.WriteFileInfo(filePath, myconn);
+
         }
 
         private void btnFile_Click(object sender, EventArgs e)
@@ -134,7 +148,7 @@ namespace sentence
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 filePath = fileDialog.FileName;
-                MessageBox.Show("已选择文件:" + filePath, "选择文件提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+               // MessageBox.Show("已选择文件:" + filePath, "选择文件提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

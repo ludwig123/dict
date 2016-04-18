@@ -178,14 +178,16 @@ namespace sentence
             //{
 
             //}
-            public long lastModifyTime(string filePath)
+
+            public  long lastModifyTime(string filePath)
             {
                 long timeLong = 0;
                 FileInfo fileinfo = new FileInfo(filePath);
                 timeLong = fileinfo.LastWriteTime.ToFileTimeUtc();
-                return timeLong;
-
+                return timeLong;              
             }
+
+
 
             //查询并返回修改过的文件的列表，文件名和最后的修改时间
             //public Array ModifiedFlies(string dbPath, string foldPath)
@@ -208,18 +210,23 @@ namespace sentence
             public void WriteFileInfo(string targetFile, SQLiteConnection sqliteConnection)
             {
                 //temp 测试数据
-                string fileName = @"sb", filePath = @"d://";
-                DirectoryInfo file = new DirectoryInfo(targetFile);
-                string lastWriteTime = file.LastWriteTime.ToUniversalTime();
+                string fileName = targetFile, filePath = targetFile;
+                long lastModifiedTime = lastModifyTime(filePath);
 
                 using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
                 {
-                    cmd.CommandText = "insert into files values ('@fileName', '@filePath', '@lastWriteTime');"
-
+                    cmd.CommandText = "insert into files values (@fileName,@filePath, @lastModifiedTime);";
+                    //匹配字符 fileName 等！！！
+                    //string 会自动添加单引号
                     cmd.Parameters.AddWithValue("@fileName", fileName);
                     cmd.Parameters.AddWithValue("@filePath", filePath);
-                    cmd.Parameters.AddWithValue("@lastModifiedTime",lastWriteTime);
+                    cmd.Parameters.AddWithValue("@lastModifiedTime", lastModifiedTime);
                     cmd.ExecuteNonQuery();
+
+                    //                 cmd.CommandText = "insert into (@file) (sentence) values (@sentence);";
+                    //                 cmd.Parameters.Add(new SQLiteParameter("@file"));
+                    //                 cmd.Parameters["@file"].Value = Path.GetFileNameWithoutExtension(filePath);
+
                 }
             }
 
@@ -232,38 +239,38 @@ namespace sentence
                 }
             }
 
-           public void WriteTable(string tableName, SQLiteConnection sqliteConnection)
-            {
-                using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
-                {
-                    IDbTransaction trans = sqliteConnection.BeginTransaction();
-                    try
-                    {
-                        //以 .  切分句子
-                        StreamReader sr = File.OpenText(filePath);
-                        string sentence = sr.ReadToEnd();
-                        string[] split_s = sentence.Split(new char[] { '.' });
+           //public void WriteTable(string tableName, SQLiteConnection sqliteConnection)
+           // {
+           //     using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
+           //     {
+           //         IDbTransaction trans = sqliteConnection.BeginTransaction();
+           //         try
+           //         {
+           //             //以 .  切分句子
+           //             StreamReader sr = File.OpenText(filePath);
+           //             string sentence = sr.ReadToEnd();
+           //             string[] split_s = sentence.Split(new char[] { '.' });
 
 
-                        //should create a table named as filename
-                        for (int i = 0; i < split_s.Length; i++)
-                        {
-                            cmd.CommandText = "insert into (@file) (sentence) values (@sentence);";
-                            cmd.Parameters.Add(new SQLiteParameter("@file"));
-                            cmd.Parameters["@file"].Value = Path.GetFileNameWithoutExtension(filePath);
+           //             //should create a table named as filename
+           //             for (int i = 0; i < split_s.Length; i++)
+           //             {
+           //                 cmd.CommandText = "insert into (@file) (sentence) values (@sentence);";
+           //                 cmd.Parameters.Add(new SQLiteParameter("@file"));
+           //                 cmd.Parameters["@file"].Value = Path.GetFileNameWithoutExtension(filePath);
 
-                            cmd.Parameters.Add(new SQLiteParameter("@sentence"));
-                            cmd.Parameters["@sentence"].Value = split_s[i];
+           //                 cmd.Parameters.Add(new SQLiteParameter("@sentence"));
+           //                 cmd.Parameters["@sentence"].Value = split_s[i];
 
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-                    catch (Exception)
-                    {
+           //                 cmd.ExecuteNonQuery();
+           //             }
+           //         }
+           //         catch (Exception)
+           //         {
 
-                    }
-                }
-            }
+           //         }
+           //     }
+           // }
 
         }
 
