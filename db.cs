@@ -149,20 +149,6 @@ namespace sentence
             }
         }
     }
-    public class SentcHandler
-    {
-        //public bool CreatDB(){
-        //}
-
-        //public bool RefreshDB{
-        //}
-
-        //private bool IsDBReady{
-
-        //}
-
-
-    }
 
     public class DBOperate
     {
@@ -170,16 +156,25 @@ namespace sentence
         {
         }
 
-        public void CreateTable(string tableName, SQLiteConnection sqliteConnection)
+        public static void CreateTable4File(string filename, SQLiteConnection sqliteConnection)
         {
             using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
             {
-                cmd.CommandText = "CREATE TABLE `" + tableName + "` (`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,`sentence`	INTEGER NOT NULL);";
+                cmd.CommandText = "CREATE TABLE `" + filename + "` (`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,`sentence`	TEXT NOT NULL);";
 
                 //cmd.Parameters.Add(new SQLiteParameter("@tableName"));
                 //cmd.Parameters["@tableName"].Value = tableName;
-                cmd.ExecuteNonQuery();
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine(" CreateTable4File falie");
+                }
             }
+
+
         }
 
         public static long GetLastModifyTime(string filePath)
@@ -207,7 +202,7 @@ namespace sentence
             return stringREG;
         }
 
-        public static void WriteFileInfo(string targetFile, SQLiteConnection sqliteConnection)
+        public static void SetFileInfo(string targetFile, SQLiteConnection sqliteConnection)
         {
             //temp 测试数据
             string fileName = targetFile, filePath = targetFile;
@@ -221,13 +216,42 @@ namespace sentence
                 cmd.Parameters.AddWithValue("@fileName", fileName);
                 cmd.Parameters.AddWithValue("@filePath", filePath);
                 cmd.Parameters.AddWithValue("@lastModifiedTime", lastModifiedTime);
-                cmd.ExecuteNonQuery();
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                }
 
-                //                 cmd.CommandText = "insert into (@file) (sentence) values (@sentence);";
-                //                 cmd.Parameters.Add(new SQLiteParameter("@file"));
-                //                 cmd.Parameters["@file"].Value = Path.GetFileNameWithoutExtension(filePath);
+                catch (Exception)
+                {
+                    Console.WriteLine(@"set_flies_info falure");
+                }
 
             }
+        }
+
+        public static void SetFileIsnfo(string FoldPath, SQLiteConnection sqliteConnection)
+        {
+
+            string searchPattern = @"*.txt";
+
+            DirectoryInfo TheFolder = new DirectoryInfo(FoldPath);
+            // Process the list of files found in the directory.
+            string[] fileEntries = Directory.GetFiles(FoldPath, searchPattern);
+
+
+            foreach (string fileName in fileEntries)
+            {
+                //这里fileName是绝对路径
+                SetFileInfo(fileName, sqliteConnection);
+                CreateTable4File(Path.GetFileNameWithoutExtension(fileName) ,sqliteConnection);
+                WriteFile2Table(fileName, sqliteConnection);
+                
+            }
+
+            // Recurse into subdirectories of this directory.
+            string[] subdirectoryEntries = Directory.GetDirectories(FoldPath);
+            foreach (string subdirectory in subdirectoryEntries)
+                SetFileIsnfo(subdirectory, sqliteConnection);
         }
 
         //返回单行信息
@@ -265,38 +289,38 @@ namespace sentence
                 //if(LastModifyTime(filePath) 
                     return true;
             }
-        //public void WriteTable(string tableName, SQLiteConnection sqliteConnection)
-        // {
-        //     using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
-        //     {
-        //         IDbTransaction trans = sqliteConnection.BeginTransaction();
-        //         try
-        //         {
-        //             //以 .  切分句子
-        //             StreamReader sr = File.OpenText(filePath);
-        //             string sentence = sr.ReadToEnd();
-        //             string[] split_s = sentence.Split(new char[] { '.' });
+        public static void WriteFile2Table(string filePath, SQLiteConnection sqliteConnection)
+        {
+            using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
+            {
+              IDbTransaction trans = sqliteConnection.BeginTransaction();
+                try
+                {
+                    //以 .  切分句子
+                    StreamReader sr = File.OpenText(filePath);
+                    string sentence = sr.ReadToEnd();
+                    string[] split_s = sentence.Split(new char[] { '.' });
 
+                    //should create a table named as filename
+                    for (int i = 0; i < split_s.Length; i++)
+                    {
+                        cmd.CommandText = "insert into '" + Path.GetFileNameWithoutExtension(filePath) + "' (sentence) values (@sentence);";
+ //                      cmd.Parameters.Add(new SQLiteParameter("@file"));
+  //                     cmd.Parameters["@file"].Value = Path.GetFileNameWithoutExtension(filePath);
 
-        //             //should create a table named as filename
-        //             for (int i = 0; i < split_s.Length; i++)
-        //             {
-        //                 cmd.CommandText = "insert into (@file) (sentence) values (@sentence);";
-        //                 cmd.Parameters.Add(new SQLiteParameter("@file"));
-        //                 cmd.Parameters["@file"].Value = Path.GetFileNameWithoutExtension(filePath);
+                        cmd.Parameters.Add(new SQLiteParameter("@sentence"));
+                        cmd.Parameters["@sentence"].Value = split_s[i];
 
-        //                 cmd.Parameters.Add(new SQLiteParameter("@sentence"));
-        //                 cmd.Parameters["@sentence"].Value = split_s[i];
-
-        //                 cmd.ExecuteNonQuery();
-        //             }
-        //         }
-        //         catch (Exception)
-        //         {
-
-        //         }
-        //     }
-        // }
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("write file erro");
+                }
+            trans.Commit();
+            }
+        }
 
     }
 

@@ -18,8 +18,8 @@ namespace sentence
     public partial class Form1 : Form
     {
         // global enviriment variables;
-        public string foldPath = null;
-        public string filePath = null;
+        public string foldPath = @"C:\Users\ludwig\Documents\Visual Studio 2010\Projects\sentence\sentence\db\test_files";
+        public string filePath = @"C:\Users\ludwig\Documents\Visual Studio 2010\Projects\sentence\sentence\db\test_files\2007年高考模拟试题英语.txt";
         public string DBPath = null;
 
 
@@ -136,23 +136,9 @@ namespace sentence
             //DBOperate test = new DBOperate();
 
 
-            //测试数据库中读取单个文件信息
-
-            //SQLiteConnection myconn = DBConnection.OpenConnection(DBConnection.DBPath());
-            //DBOperate.WriteFileInfo(filePath, myconn);
-            //SQLiteDataReader fileInfoReader = DBOperate.ReadFileInfo(filePath, myconn);
-            //while (fileInfoReader.Read())
-            //{
-            //    Console.WriteLine(fileInfoReader.GetString(0) + " " + fileInfoReader.GetString(1) + " " + fileInfoReader.GetInt64(2));
-            //}
-            //myconn.Close();
-
             SQLiteConnection myconn = DBConnection.OpenConnection(DBConnection.DBPath());
-            SQLiteDataReader fileInfoReader = DBOperate.GetFilesInfo(myconn);
-            while (fileInfoReader.Read())
-            {
-                Console.WriteLine(fileInfoReader.GetString(0) + " " + fileInfoReader.GetString(1) + " " + fileInfoReader.GetInt64(2));
-            }
+           DBOperate.SetFileIsnfo(foldPath, myconn);
+            DBOperate.WriteFile2Table(filePath,myconn);
             myconn.Close();
 
         }
