@@ -136,7 +136,7 @@ namespace sentence
             //DBOperate test = new DBOperate();
             //test.WriteFileInfo(filePath, myconn);
 
-            //测试读取单个文件信息
+            //测试数据库中读取单个文件信息
             //DBConnection conn = new DBConnection();
             //SQLiteConnection myconn = conn.Start(conn.DBPath());
             //DBOperate test = new DBOperate();
@@ -193,7 +193,7 @@ namespace sentence
 
         private void listbR_DoubleClick(object sender, EventArgs e)
         {
-
+            //未测试代码
             this.searchBox.Location = new System.Drawing.Point(165, 3);
             this.searchBox.Name = "searchBox";
             this.searchBox.Size = new System.Drawing.Size(374, 21);
