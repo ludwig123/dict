@@ -42,7 +42,7 @@ namespace sentence
         //自动查找安装目录
         //当前目录是sentence/bin/debug/sentence.exe   
         //转到sentence/db/sentence.db
-        public string DBPath()
+        public static string DBPath()
         {
             string sysPath = System.Windows.Forms.Application.StartupPath + @"../../../";
             System.IO.Directory.SetCurrentDirectory(sysPath);
@@ -54,7 +54,17 @@ namespace sentence
         {
         }
 
-        public SQLiteConnection Start(string DBPath)
+        public static SQLiteConnection OpenConnection(string DBPath)
+        {
+            SQLiteConnection myconn = DBConnection.Start(DBPath);
+            return myconn;
+        }
+
+        public static void CloseConnection( SQLiteConnection myconn)
+        {
+            myconn.Close();
+        }
+        public static SQLiteConnection Start(string DBPath)
         {
             string sConn = SQLiteConnectionString.GetConnectionString(DBPath);
 
@@ -172,7 +182,7 @@ namespace sentence
             }
         }
 
-        public long GetLastModifyTime(string filePath)
+        public static long GetLastModifyTime(string filePath)
         {
             long timeLong = 0;
             FileInfo fileinfo = new FileInfo(filePath);
@@ -197,7 +207,7 @@ namespace sentence
             return stringREG;
         }
 
-        public void WriteFileInfo(string targetFile, SQLiteConnection sqliteConnection)
+        public static void WriteFileInfo(string targetFile, SQLiteConnection sqliteConnection)
         {
             //temp 测试数据
             string fileName = targetFile, filePath = targetFile;
@@ -221,7 +231,7 @@ namespace sentence
         }
 
         //返回单行信息
-        public SQLiteDataReader ReadFileInfo(string targetFile, SQLiteConnection sqliteConnection)
+        public static SQLiteDataReader ReadFileInfo(string targetFile, SQLiteConnection sqliteConnection)
         {
             using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
             {
