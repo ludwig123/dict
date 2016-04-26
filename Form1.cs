@@ -138,15 +138,23 @@ namespace sentence
 
             //测试数据库中读取单个文件信息
 
+            //SQLiteConnection myconn = DBConnection.OpenConnection(DBConnection.DBPath());
+            //DBOperate.WriteFileInfo(filePath, myconn);
+            //SQLiteDataReader fileInfoReader = DBOperate.ReadFileInfo(filePath, myconn);
+            //while (fileInfoReader.Read())
+            //{
+            //    Console.WriteLine(fileInfoReader.GetString(0) + " " + fileInfoReader.GetString(1) + " " + fileInfoReader.GetInt64(2));
+            //}
+            //myconn.Close();
+
             SQLiteConnection myconn = DBConnection.OpenConnection(DBConnection.DBPath());
-            DBOperate.WriteFileInfo(filePath, myconn);
-            SQLiteDataReader fileInfoReader = DBOperate.ReadFileInfo(filePath, myconn);
+            SQLiteDataReader fileInfoReader = DBOperate.GetFilesInfo(myconn);
             while (fileInfoReader.Read())
             {
                 Console.WriteLine(fileInfoReader.GetString(0) + " " + fileInfoReader.GetString(1) + " " + fileInfoReader.GetInt64(2));
             }
-
             myconn.Close();
+
         }
 
         private void btnFile_Click(object sender, EventArgs e)

@@ -231,7 +231,7 @@ namespace sentence
         }
 
         //返回单行信息
-        public static SQLiteDataReader ReadFileInfo(string targetFile, SQLiteConnection sqliteConnection)
+        public static SQLiteDataReader GetFileInfo(string targetFile, SQLiteConnection sqliteConnection)
         {
             using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
             {
@@ -245,6 +245,17 @@ namespace sentence
 
                 return fileInfoReader;
 
+            }
+        }
+
+        public static SQLiteDataReader GetFilesInfo(SQLiteConnection sqliteConnection)
+        {
+            using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
+            {
+                cmd.CommandText = "select * from files ;";
+                SQLiteDataReader fileInfoReader = cmd.ExecuteReader(CommandBehavior.SingleResult);
+
+                return fileInfoReader;
             }
         }
 
