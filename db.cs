@@ -196,7 +196,7 @@ namespace sentence
 
         //}
 
-        public string createREG(string keyWord)
+        private static string createREG(string keyWord)
         {
             string stringREG = "%" + keyWord + "%";
             return stringREG;
@@ -262,9 +262,6 @@ namespace sentence
                 cmd.CommandText = "select * from files where name like @filePath;";
                 cmd.Parameters.AddWithValue("@filePath", targetFile);
 
-                ////test语句
-                //cmd.CommandText = "select * from files ;";
-
                 SQLiteDataReader fileInfoReader = cmd.ExecuteReader(CommandBehavior.SingleRow);
 
                 return fileInfoReader;
@@ -281,6 +278,22 @@ namespace sentence
 
                 return fileInfoReader;
             }
+        }
+
+        public static SQLiteDataReader search(string keyword, SQLiteConnection sqliteConnection)
+        {
+            string key = createREG(keyword);
+            using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
+            {
+                cmd.CommandText = "select * from files where name like @filePath;";
+                cmd.Parameters.AddWithValue("@filePath", targetFile);
+
+                ////test语句
+                //cmd.CommandText = "select * from files ;";
+
+                SQLiteDataReader fileInfoReader = cmd.ExecuteReader(CommandBehavior.SingleRow);
+
+                return fileInfoReader;
         }
 
         public bool IsModifid(string filePath)
