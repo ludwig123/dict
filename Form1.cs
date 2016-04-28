@@ -138,10 +138,7 @@ namespace sentence
             //DBOperate test = new DBOperate();
 
 
-            SQLiteConnection myconn = DBConnection.OpenConnection(DBConnection.DBPath());
-            DBOperate.SetFilesInfo(foldPath, myconn);
-            DispayListboxR();
-            myconn.Close();
+
 
 
         }
@@ -195,6 +192,20 @@ namespace sentence
             this.searchBox.Name = "searchBox";
             this.searchBox.Size = new System.Drawing.Size(374, 21);
 //            this.searchBox.TabIndex = 9;
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            SQLiteConnection myconn = DBConnection.OpenConnection(DBConnection.DBPath());
+            DBOperate.SetFilesInfo(foldPath, myconn);
+            string keyword = this;
+            string filename = "2007年高考模拟试题英语";
+
+            ArrayList myArray = DBOperate.search(keyword, filename, myconn);
+
+
+            DispayListboxR(myArray);
+            myconn.Close();
         }
 
     }

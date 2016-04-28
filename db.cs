@@ -280,25 +280,31 @@ namespace sentence
             }
         }
 
-        public static SQLiteDataReader search(string keyWord, string fileName, SQLiteConnection sqliteConnection)
+
+        public static ArrayList search(string keyWord, string fileName, SQLiteConnection sqliteConnection)
         {
             string key = createREG(keyWord);
             using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
             {
-                cmd.CommandText = "select * from @fileName where name like @key;";
-                cmd.Parameters.AddWithValue("@fileName", fileName);
-                cmd.Parameters.AddWithValue("@key", key);
+                cmd.CommandText = "select * from '"+fileName+"' where sentence like '"+key+"';";
+   //             cmd.Parameters.AddWithValue("@fileName", fileName);
+ //               cmd.Parameters.AddWithValue("@key", key);
 
+                SQLiteDataReader fileInfoReader = cmd.ExecuteReader(CommandBehavior.SingleResult);
 
-                SQLiteDataReader fileInfoReader = cmd.ExecuteReader(CommandBehavior.SingleRow);
-
-                return fileInfoReader;
+                return Reader2ArrayList( fileInfoReader);
             }
         }
 
         public static ArrayList Reader2ArrayList(SQLiteDataReader sqliteDateReader)
         {
+            ArrayList arrayList = new ArrayList();
+            while(sqliteDateReader.Read())
+            {
+                arrayList.Add(sqliteDateReader[1]);
+            }
 
+            return arrayList;
         }
 
         
