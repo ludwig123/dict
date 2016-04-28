@@ -280,22 +280,28 @@ namespace sentence
             }
         }
 
-        public static SQLiteDataReader search(string keyword, SQLiteConnection sqliteConnection)
+        public static SQLiteDataReader search(string keyWord, string fileName, SQLiteConnection sqliteConnection)
         {
-            string key = createREG(keyword);
+            string key = createREG(keyWord);
             using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
             {
-                cmd.CommandText = "select * from files where name like @filePath;";
-                cmd.Parameters.AddWithValue("@filePath", targetFile);
+                cmd.CommandText = "select * from @fileName where name like @key;";
+                cmd.Parameters.AddWithValue("@fileName", fileName);
+                cmd.Parameters.AddWithValue("@key", key);
 
-                ////test语句
-                //cmd.CommandText = "select * from files ;";
 
                 SQLiteDataReader fileInfoReader = cmd.ExecuteReader(CommandBehavior.SingleRow);
 
                 return fileInfoReader;
             }
         }
+
+        public static ArrayList Reader2ArrayList(SQLiteDataReader sqliteDateReader)
+        {
+
+        }
+
+        
 
 
 
@@ -323,8 +329,6 @@ namespace sentence
                     for (int i = 0; i < split_s.Length; i++)
                     {
                         cmd.CommandText = "insert into '" + Path.GetFileNameWithoutExtension(filePath) + "' (sentence) values (@sentence);";
- //                      cmd.Parameters.Add(new SQLiteParameter("@file"));
-  //                     cmd.Parameters["@file"].Value = Path.GetFileNameWithoutExtension(filePath);
 
                         cmd.Parameters.Add(new SQLiteParameter("@sentence"));
                         cmd.Parameters["@sentence"].Value = split_s[i];
@@ -338,34 +342,6 @@ namespace sentence
                 }
             trans.Commit();
             }
-        }
-
-    }
-
-    public static class TimeHandler
-    {
-        /// <summary>
-        /// 时间戳转为C#格式时间
-        /// </summary>
-        /// <param name="timeStamp">Unix时间戳格式</param>
-        /// <returns>C#格式时间</returns>
-        public static DateTime TimeStamp2DateTime(string timeStamp)
-        {
-            DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
-            long lTime = long.Parse(timeStamp + "0000000");
-            TimeSpan toNow = new TimeSpan(lTime);
-            return dtStart.Add(toNow);
-        }
-
-        /// <summary>
-        /// DateTime时间格式转换为Unix时间戳格式
-        /// </summary>
-        /// <param name="time"> DateTime时间格式</param>
-        /// <returns>Unix时间戳格式</returns>
-        public static int DateTime2TimeStamp(System.DateTime time)
-        {
-            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
-            return (int)(time - startTime).TotalSeconds;
         }
 
     }

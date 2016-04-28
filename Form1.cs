@@ -138,12 +138,12 @@ namespace sentence
             //DBOperate test = new DBOperate();
 
 
-           // SQLiteConnection myconn = DBConnection.OpenConnection(DBConnection.DBPath());
-           //DBOperate.SetFilesInfo(foldPath, myconn);
-           // DBOperate.WriteFile2Table(filePath,myconn);
-           // myconn.Close();
+            SQLiteConnection myconn = DBConnection.OpenConnection(DBConnection.DBPath());
+            DBOperate.SetFilesInfo(foldPath, myconn);
+            DispayListboxR();
+            myconn.Close();
 
-            ProcessDirectory(foldPath);
+
         }
 
         private void btnFile_Click(object sender, EventArgs e)
