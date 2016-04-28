@@ -287,8 +287,6 @@ namespace sentence
             using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
             {
                 cmd.CommandText = "select * from '"+fileName+"' where sentence like '"+key+"';";
-   //             cmd.Parameters.AddWithValue("@fileName", fileName);
- //               cmd.Parameters.AddWithValue("@key", key);
 
                 SQLiteDataReader fileInfoReader = cmd.ExecuteReader(CommandBehavior.SingleResult);
 

@@ -27,7 +27,6 @@ namespace sentence
         public Form1()
         {
             InitializeComponent();
-            DBConnection myconn = new DBConnection();
            
         }
 
@@ -43,20 +42,16 @@ namespace sentence
 
         }
 
-        public void DispayListboxR(ArrayList arrayList)
+        public void DispayListboxR(ArrayList arrayList, ListBox listBox)
         {
-            foreach (string path in arrayList)
-            {
-                this.listbR.Items.Add(path);
-            }
-        }
+            listBox.Items.Clear();
 
-         public void DispayListboxL(ArrayList arrayList)
-        {
+            listBox.BeginUpdate();
             foreach (string path in arrayList)
             {
-                this.listbL.Items.Add(path);
+                listBox.Items.Add(path);
             }
+            listBox.EndUpdate();
         }
 
 
@@ -197,14 +192,14 @@ namespace sentence
         private void btnSearch_Click(object sender, EventArgs e)
         {
             SQLiteConnection myconn = DBConnection.OpenConnection(DBConnection.DBPath());
-            DBOperate.SetFilesInfo(foldPath, myconn);
-            string keyword = this;
+
+            string keyword = this.searchBox.Text;
             string filename = "2007年高考模拟试题英语";
 
             ArrayList myArray = DBOperate.search(keyword, filename, myconn);
 
 
-            DispayListboxR(myArray);
+            DispayListboxR(myArray,this.listbR);
             myconn.Close();
         }
 

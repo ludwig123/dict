@@ -97,42 +97,36 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.listbR);
             this.panel1.Controls.Add(this.listbL);
-            this.panel1.Location = new System.Drawing.Point(16, 98);
+            this.panel1.Location = new System.Drawing.Point(16, 122);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1283, 465);
+            this.panel1.Size = new System.Drawing.Size(990, 494);
             this.panel1.TabIndex = 7;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // listbR
             // 
-            this.listbR.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
             this.listbR.FormattingEnabled = true;
             this.listbR.ItemHeight = 15;
-            this.listbR.Location = new System.Drawing.Point(220, 5);
+            this.listbR.Location = new System.Drawing.Point(310, 15);
             this.listbR.Margin = new System.Windows.Forms.Padding(4);
             this.listbR.Name = "listbR";
-            this.listbR.Size = new System.Drawing.Size(756, 754);
+            this.listbR.Size = new System.Drawing.Size(665, 454);
             this.listbR.TabIndex = 1;
             this.listbR.DoubleClick += new System.EventHandler(this.listbR_DoubleClick);
             // 
             // listbL
             // 
-            this.listbL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.listbL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.listbL.FormattingEnabled = true;
             this.listbL.ItemHeight = 15;
-            this.listbL.Location = new System.Drawing.Point(5, 5);
+            this.listbL.Location = new System.Drawing.Point(18, 15);
             this.listbL.Margin = new System.Windows.Forms.Padding(4);
             this.listbL.Name = "listbL";
-            this.listbL.Size = new System.Drawing.Size(205, 754);
+            this.listbL.Size = new System.Drawing.Size(254, 454);
             this.listbL.TabIndex = 0;
             this.listbL.SelectedIndexChanged += new System.EventHandler(this.listbFile_SelectedIndexChanged);
             // 
@@ -173,17 +167,17 @@
             this.panel2.Controls.Add(this.comboBox);
             this.panel2.Controls.Add(this.btnSearch);
             this.panel2.Controls.Add(this.searchBox);
-            this.panel2.Location = new System.Drawing.Point(16, 51);
+            this.panel2.Location = new System.Drawing.Point(16, 52);
             this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(957, 39);
+            this.panel2.Size = new System.Drawing.Size(995, 38);
             this.panel2.TabIndex = 11;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1315, 629);
+            this.ClientSize = new System.Drawing.Size(1024, 629);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnOpen);
