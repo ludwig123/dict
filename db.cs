@@ -185,17 +185,6 @@ namespace sentence
             return timeLong;
         }
 
-        //查询并返回修改过的文件的列表，文件名和最后的修改时间
-        //public Array ModifiedFlies(string dbPath, string foldPath)
-        //{
-
-        //}
-
-        //public Array Search(string keyWord)
-        //{
-
-        //}
-
         private static string createREG(string keyWord)
         {
             string stringREG = "%" + keyWord + "%";
@@ -305,7 +294,10 @@ namespace sentence
             return arrayList;
         }
 
-        
+        public static void RefreshDB(SQLiteConnection sqliteConnection)
+        {
+
+        }
 
 
 
