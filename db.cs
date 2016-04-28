@@ -229,7 +229,7 @@ namespace sentence
             }
         }
 
-        public static void SetFileIsnfo(string FoldPath, SQLiteConnection sqliteConnection)
+        public static void SetFilesInfo(string FoldPath, SQLiteConnection sqliteConnection)
         {
 
             string searchPattern = @"*.txt";
@@ -251,7 +251,7 @@ namespace sentence
             // Recurse into subdirectories of this directory.
             string[] subdirectoryEntries = Directory.GetDirectories(FoldPath);
             foreach (string subdirectory in subdirectoryEntries)
-                SetFileIsnfo(subdirectory, sqliteConnection);
+                SetFilesInfo(subdirectory, sqliteConnection);
         }
 
         //返回单行信息
@@ -294,7 +294,12 @@ namespace sentence
                 SQLiteDataReader fileInfoReader = cmd.ExecuteReader(CommandBehavior.SingleRow);
 
                 return fileInfoReader;
+            }
         }
+
+
+
+
 
         public bool IsModifid(string filePath)
             {

@@ -18,8 +18,8 @@ namespace sentence
     public partial class Form1 : Form
     {
         // global enviriment variables;
-        public string foldPath = @"C:\Users\ludwig\Documents\Visual Studio 2010\Projects\sentence\sentence\db\test_files";
-        public string filePath = @"C:\Users\ludwig\Documents\Visual Studio 2010\Projects\sentence\sentence\db\test_files\2007年高考模拟试题英语.txt";
+        public string foldPath = @"C:\Users\hejin.DESKTOP-HCOCNG6\Documents\Visual Studio 2010\Projects\WindowsFormsApplication2\WindowsFormsApplication2\db\test_files";
+        public string filePath = @"C:\Users\hejin.DESKTOP-HCOCNG6\Documents\Visual Studio 2010\Projects\WindowsFormsApplication2\WindowsFormsApplication2\db\test_files\2007年高考模拟试题英语.txt";
         public string DBPath = null;
 
 
@@ -59,9 +59,11 @@ namespace sentence
             }
         }
 
+
+        
         public void ProcessDirectory(string targetDirectory)
         {
-            string searchPattern = @"*.exe";
+            string searchPattern = @"*.txt";
 
             DirectoryInfo TheFolder = new DirectoryInfo(targetDirectory);
             ArrayList files = new ArrayList();
@@ -114,7 +116,7 @@ namespace sentence
             //}
         }
 
-        private void insert_Click(object sender, EventArgs e)
+        private void test_Click(object sender, EventArgs e)
         {
             {
                 // string hello = @"hello";
@@ -136,11 +138,12 @@ namespace sentence
             //DBOperate test = new DBOperate();
 
 
-            SQLiteConnection myconn = DBConnection.OpenConnection(DBConnection.DBPath());
-           DBOperate.SetFileIsnfo(foldPath, myconn);
-            DBOperate.WriteFile2Table(filePath,myconn);
-            myconn.Close();
+           // SQLiteConnection myconn = DBConnection.OpenConnection(DBConnection.DBPath());
+           //DBOperate.SetFilesInfo(foldPath, myconn);
+           // DBOperate.WriteFile2Table(filePath,myconn);
+           // myconn.Close();
 
+            ProcessDirectory(foldPath);
         }
 
         private void btnFile_Click(object sender, EventArgs e)
@@ -196,9 +199,5 @@ namespace sentence
 
     }
 }
-
-
- 
-
 
 
