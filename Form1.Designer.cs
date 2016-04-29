@@ -41,6 +41,7 @@
             this.searchBox = new System.Windows.Forms.TextBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btn_rewriteDB = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -173,11 +174,23 @@
             this.panel2.Size = new System.Drawing.Size(995, 38);
             this.panel2.TabIndex = 11;
             // 
+            // btn_rewriteDB
+            // 
+            this.btn_rewriteDB.Location = new System.Drawing.Point(718, 13);
+            this.btn_rewriteDB.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_rewriteDB.Name = "btn_rewriteDB";
+            this.btn_rewriteDB.Size = new System.Drawing.Size(100, 29);
+            this.btn_rewriteDB.TabIndex = 12;
+            this.btn_rewriteDB.Text = "btn_rewriteDB";
+            this.btn_rewriteDB.UseVisualStyleBackColor = true;
+            this.btn_rewriteDB.Click += new System.EventHandler(this.btn_rewriteDB_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1024, 629);
+            this.Controls.Add(this.btn_rewriteDB);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnOpen);
@@ -211,6 +224,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ListBox listbR;
         private System.Windows.Forms.ListBox listbL;
+        private System.Windows.Forms.Button btn_rewriteDB;
     }
 }
 

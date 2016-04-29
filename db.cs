@@ -43,7 +43,7 @@ namespace sentence
         //自动查找安装目录
         //当前目录是sentence/bin/debug/sentence.exe   
         //转到sentence/db/sentence.db
-        public static string DBPath()
+        public static string GetDBPath()
         {
             string sysPath = System.Windows.Forms.Application.StartupPath + @"../../../";
             System.IO.Directory.SetCurrentDirectory(sysPath);
@@ -195,7 +195,8 @@ namespace sentence
         public static void SetFileInfo(string targetFile, SQLiteConnection sqliteConnection)
         {
             //temp 测试数据
-            string fileName = targetFile, filePath = targetFile;
+            string fileName = Path.GetFileNameWithoutExtension(targetFile);
+            string filePath = targetFile;
             long lastModifiedTime = GetLastModifyTime(filePath);
 
             using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
@@ -219,7 +220,7 @@ namespace sentence
             }
         }
 
-        public static void SetFilesInfo(string FoldPath, SQLiteConnection sqliteConnection)
+        public static void SetFiles(string FoldPath, SQLiteConnection sqliteConnection)
         {
 
             string searchPattern = @"*.txt";
@@ -234,14 +235,14 @@ namespace sentence
                 //这里fileName是绝对路径
                 SetFileInfo(fileName, sqliteConnection);
                 CreateTable4File(Path.GetFileNameWithoutExtension(fileName) ,sqliteConnection);
-                WriteFile2Table(fileName, sqliteConnection);
+                SetFileContent(fileName, sqliteConnection);
                 
             }
 
             // Recurse into subdirectories of this directory.
             string[] subdirectoryEntries = Directory.GetDirectories(FoldPath);
             foreach (string subdirectory in subdirectoryEntries)
-                SetFilesInfo(subdirectory, sqliteConnection);
+                SetFiles(subdirectory, sqliteConnection);
         }
 
         //返回单行信息
@@ -310,7 +311,7 @@ namespace sentence
                 //if(LastModifyTime(filePath) 
                     return true;
             }
-        public static void WriteFile2Table(string filePath, SQLiteConnection sqliteConnection)
+        public static void SetFileContent(string filePath, SQLiteConnection sqliteConnection)
         {
             using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
             {
@@ -318,7 +319,7 @@ namespace sentence
                 try
                 {
                     //以pattern切分句子
-                    string pattern = @"^\d{1,2}\.\s";
+                    string pattern = @"\d{1,2}\.\s";
                     StreamReader sr = File.OpenText(filePath);
                     string sentence = sr.ReadToEnd();
                     string[] split_s = Regex.Split(sentence, pattern);

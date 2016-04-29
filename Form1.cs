@@ -20,7 +20,7 @@ namespace sentence
         // global enviriment variables;
         public string foldPath = @"C:\Users\hejin.DESKTOP-HCOCNG6\Documents\Visual Studio 2010\Projects\WindowsFormsApplication2\WindowsFormsApplication2\db\test_files";
         public string filePath = @"C:\Users\hejin.DESKTOP-HCOCNG6\Documents\Visual Studio 2010\Projects\WindowsFormsApplication2\WindowsFormsApplication2\db\test_files\2007年高考模拟试题英语.txt";
-        public string DBPath = null;
+        public static string DBPath ;
 
 
 
@@ -39,6 +39,7 @@ namespace sentence
             //}
 
             //DisplayFold(foldPath);
+            Form1.DBPath = DBConnection.GetDBPath();
 
         }
 
@@ -113,24 +114,6 @@ namespace sentence
 
         private void test_Click(object sender, EventArgs e)
         {
-            {
-                // string hello = @"hello";
-                // DBConnection conn = new DBConnection();
-                //SQLiteConnection myconn =  conn.Start(conn.DBPath());
-
-                //DBOperate createTable = new DBOperate();
-                //createTable.CreateTable(hello,myconn);
-            }
-
-            //测试Utctime
-            //DBOperate test = new DBOperate();
-            //DateTime test2 = DateTime.UtcNow;
-            //Console.WriteLine( test2.ToFileTimeUtc());
-
-            //测试写入文件信息功能
-            //DBConnection conn = new DBConnection();
-            //SQLiteConnection myconn = conn.Start(conn.DBPath());
-            //DBOperate test = new DBOperate();
 
 
 
@@ -191,7 +174,7 @@ namespace sentence
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            SQLiteConnection myconn = DBConnection.OpenConnection(DBConnection.DBPath());
+            SQLiteConnection myconn = DBConnection.OpenConnection(DBConnection.GetDBPath());
 
             string keyword = this.searchBox.Text;
             string filename = "2007年高考模拟试题英语";
@@ -200,6 +183,13 @@ namespace sentence
 
 
             DispayListboxR(myArray,this.listbR);
+            myconn.Close();
+        }
+
+        private void btn_rewriteDB_Click(object sender, EventArgs e)
+        {
+            SQLiteConnection myconn = DBConnection.Start(DBPath);
+            DBOperate.SetFiles(foldPath, myconn);
             myconn.Close();
         }
 
