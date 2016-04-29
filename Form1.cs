@@ -32,18 +32,11 @@ namespace sentence
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //if (foldPath == null || filePath == null)
-            //{
-            //    MessageBox.Show("please choos fold or file");
-            //    btn_Path.PerformClick();
-            //}
-
-            //DisplayFold(foldPath);
             Form1.DBPath = DBConnection.GetDBPath();
-
+            
         }
 
-        public void DispayListboxR(ArrayList arrayList, ListBox listBox)
+        public void DispayListbox(ArrayList arrayList, ListBox listBox)
         {
             listBox.Items.Clear();
 
@@ -89,27 +82,6 @@ namespace sentence
         public void DisplayFold(string foldPath)
         {
             this.ProcessDirectory(foldPath);
-
-
-            //foreach (string path in files)
-            //{
-            //    this.listbSentence.Items.Add(path);
-            //}
-
-            //DirectoryInfo TheFolder = new DirectoryInfo(foldPath);
-            ////遍历文件夹
-            //foreach (DirectoryInfo NextFolder in TheFolder.GetDirectories())
-            //{
-            //    string[] subdirectoryEntries = Directory.GetDirectories(NextFolder.ToString());
-            //    foreach (string subdirectory in subdirectoryEntries)
-              
-            //    this.listbFile.Items.Add(NextFolder.Name);
-            //}
-            ////遍历文件
-            //foreach (FileInfo NextFile in TheFolder.GetFiles())
-            //{
-            //    this.listbSentence.Items.Add(NextFile.Name);
-            //}
         }
 
         private void test_Click(object sender, EventArgs e)
@@ -152,11 +124,7 @@ namespace sentence
             System.Diagnostics.Process.Start("Explorer.exe", foldPath);
         }
 
-        private void listbFile_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string curItem = listbL.SelectedItem.ToString();
 
-        }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
@@ -182,7 +150,7 @@ namespace sentence
             ArrayList myArray = DBOperate.search(keyword, filename, myconn);
 
 
-            DispayListboxR(myArray,this.listbR);
+            DispayListbox(myArray,this.listbR);
             myconn.Close();
         }
 
@@ -197,6 +165,19 @@ namespace sentence
             DBOperate.CreateTable4File(myconn);
             DBOperate.SetFiles(foldPath, myconn);
             myconn.Close();
+        }
+
+        private void searchBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((int)e.KeyCode == 13)
+            {
+                btnSearch_Click(sender, e);
+            }
+        }
+
+        private void btn_output_Click(object sender, EventArgs e)
+        {
+            
         }
 
     }
