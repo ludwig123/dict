@@ -320,7 +320,7 @@ namespace sentence
                 {
                     //以pattern切分句子
                     string pattern = @"\d{1,2}\.\s";
-                    StreamReader sr = File.OpenText(filePath);
+                    StreamReader sr =new StreamReader(filePath,Encoding.ASCII);
                     string sentence = sr.ReadToEnd();
                     string[] split_s = Regex.Split(sentence, pattern);
 
@@ -341,6 +341,11 @@ namespace sentence
                 }
             trans.Commit();
             }
+        }
+
+        private static StreamReader StreamReader(string filePath, Encoding encoding)
+        {
+            throw new NotImplementedException();
         }
 
     }

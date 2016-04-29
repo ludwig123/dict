@@ -188,6 +188,11 @@ namespace sentence
 
         private void btn_rewriteDB_Click(object sender, EventArgs e)
         {
+            if (File.Exists(DBPath))
+            {
+                //如果存在则删除
+                File.Delete(DBPath);
+            } 
             SQLiteConnection myconn = DBConnection.Start(DBPath);
             DBOperate.SetFiles(foldPath, myconn);
             myconn.Close();
