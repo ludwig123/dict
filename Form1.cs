@@ -177,7 +177,7 @@ namespace sentence
             SQLiteConnection myconn = DBConnection.OpenConnection(DBConnection.GetDBPath());
 
             string keyword = this.searchBox.Text;
-            string filename = "2007年高考模拟试题英语";
+            string filename = "sentence";
 
             ArrayList myArray = DBOperate.search(keyword, filename, myconn);
 
@@ -194,6 +194,7 @@ namespace sentence
                 File.Delete(DBPath);
             } 
             SQLiteConnection myconn = DBConnection.Start(DBPath);
+            DBOperate.CreateTable4File(myconn);
             DBOperate.SetFiles(foldPath, myconn);
             myconn.Close();
         }

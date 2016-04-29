@@ -157,14 +157,17 @@ namespace sentence
         {
         }
 
-        public static void CreateTable4File(string filename, SQLiteConnection sqliteConnection)
+
+        public static void CreateTable4File(SQLiteConnection sqliteConnection)
+        {
+            CreateTable4File(@"sentence", sqliteConnection);
+        }
+        private static void CreateTable4File(string tableName, SQLiteConnection sqliteConnection)
         {
             using (SQLiteCommand cmd = sqliteConnection.CreateCommand())
             {
-                cmd.CommandText = "CREATE TABLE `" + filename + "` (`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,`sentence`	TEXT NOT NULL);";
+                cmd.CommandText = "CREATE TABLE `" + tableName + "` (`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,`sentence`	TEXT NOT NULL,'filename' TEXT NOT NULL);";
 
-                //cmd.Parameters.Add(new SQLiteParameter("@tableName"));
-                //cmd.Parameters["@tableName"].Value = tableName;
                 try
                 {
                     cmd.ExecuteNonQuery();
@@ -178,7 +181,7 @@ namespace sentence
 
         }
 
-        public static long GetLastModifyTime(string filePath)
+        private static long GetLastModifyTime(string filePath)
         {
             long timeLong = 0;
             FileInfo fileinfo = new FileInfo(filePath);
@@ -192,7 +195,7 @@ namespace sentence
             return stringREG;
         }
 
-        public static void SetFileInfo(string targetFile, SQLiteConnection sqliteConnection)
+        private static void SetFileInfo(string targetFile, SQLiteConnection sqliteConnection)
         {
             //temp 测试数据
             string fileName = Path.GetFileNameWithoutExtension(targetFile);
@@ -230,12 +233,10 @@ namespace sentence
             string[] fileEntries = Directory.GetFiles(FoldPath, searchPattern);
 
 
-            foreach (string fileName in fileEntries)
+            foreach (string filePath in fileEntries)
             {
                 //这里fileName是绝对路径
-                SetFileInfo(fileName, sqliteConnection);
-                CreateTable4File(Path.GetFileNameWithoutExtension(fileName) ,sqliteConnection);
-                SetFileContent(fileName, sqliteConnection);
+                SetFileContent(filePath, sqliteConnection);
                 
             }
 
@@ -296,14 +297,6 @@ namespace sentence
             return arrayList;
         }
 
-        public static void RefreshDB(SQLiteConnection sqliteConnection)
-        {
-
-        }
-
-
-
-
 
         public bool IsModifid(string filePath)
             {
@@ -320,18 +313,21 @@ namespace sentence
                 {
                     //以pattern切分句子
                     string pattern = @"\d{1,2}\.\s";
-                    StreamReader sr =new StreamReader(filePath,Encoding.ASCII);
+                    StreamReader sr =new StreamReader(filePath,Encoding.UTF8);
                     string sentence = sr.ReadToEnd();
                     string[] split_s = Regex.Split(sentence, pattern);
+
+                   string fileName =  Path.GetFileNameWithoutExtension(filePath);
 
                     //should create a table named as filename
                     for (int i = 0; i < split_s.Length; i++)
                     {
-                        cmd.CommandText = "insert into '" + Path.GetFileNameWithoutExtension(filePath) + "' (sentence) values (@sentence);";
+                        cmd.CommandText = "insert into sentence (sentence,filename) values (@sentence,@filename);";
 
                         cmd.Parameters.Add(new SQLiteParameter("@sentence"));
                         cmd.Parameters["@sentence"].Value = split_s[i];
 
+                        cmd.Parameters.AddWithValue("@filename", fileName);
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -341,11 +337,6 @@ namespace sentence
                 }
             trans.Commit();
             }
-        }
-
-        private static StreamReader StreamReader(string filePath, Encoding encoding)
-        {
-            throw new NotImplementedException();
         }
 
     }
