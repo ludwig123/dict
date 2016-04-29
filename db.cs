@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace sentence
 {
@@ -316,10 +317,11 @@ namespace sentence
               IDbTransaction trans = sqliteConnection.BeginTransaction();
                 try
                 {
-                    //以 .  切分句子
+                    //以pattern切分句子
+                    string pattern = @"^\d{1,2}\.\s";
                     StreamReader sr = File.OpenText(filePath);
                     string sentence = sr.ReadToEnd();
-                    string[] split_s = sentence.Split(new char[] { '.' });
+                    string[] split_s = Regex.Split(sentence, pattern);
 
                     //should create a table named as filename
                     for (int i = 0; i < split_s.Length; i++)
