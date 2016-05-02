@@ -156,6 +156,8 @@ namespace sentence
 
         private void btn_rewriteDB_Click(object sender, EventArgs e)
         {
+            Stopwatch myWatch =  Stopwatch.StartNew();
+            myWatch.Start();
             if (File.Exists(DBPath))
             {
                 //如果存在则删除
@@ -165,6 +167,15 @@ namespace sentence
             DBOperate.CreateTable4File(myconn);
             DBOperate.SetFiles(foldPath, myconn);
             myconn.Close();
+            myWatch.Stop();
+            TimeSpan ts = myWatch.Elapsed;
+
+            // Format and display the TimeSpan value.
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                ts.Hours, ts.Minutes, ts.Seconds,
+                ts.Milliseconds / 10);
+            Console.WriteLine(elapsedTime, "RunTime");
+
         }
 
         private void searchBox_KeyDown(object sender, KeyEventArgs e)

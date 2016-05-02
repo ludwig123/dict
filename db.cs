@@ -230,20 +230,33 @@ namespace sentence
 
             DirectoryInfo TheFolder = new DirectoryInfo(FoldPath);
             // Process the list of files found in the directory.
-            string[] fileEntries = Directory.GetFiles(FoldPath, searchPattern);
 
-
-            foreach (string filePath in fileEntries)
+            try
             {
-                //这里fileName是绝对路径
-                SetFileContent(filePath, sqliteConnection);
-                
+                string[] fileEntries = Directory.GetFiles(FoldPath, searchPattern);
+
+                foreach (string filePath in fileEntries)
+                {
+                    //这里fileName是绝对路径
+                    SetFileContent(filePath, sqliteConnection);
+
+                }
+
+                // Recurse into subdirectories of this directory.
+                string[] subdirectoryEntries = Directory.GetDirectories(FoldPath);
+                foreach (string subdirectory in subdirectoryEntries)
+                    SetFiles(subdirectory, sqliteConnection);
             }
 
-            // Recurse into subdirectories of this directory.
-            string[] subdirectoryEntries = Directory.GetDirectories(FoldPath);
-            foreach (string subdirectory in subdirectoryEntries)
-                SetFiles(subdirectory, sqliteConnection);
+            catch (Exception)
+            {
+                MessageBox.Show(@"没有权限访问该文件夹！");
+                Application.ExitThread();
+                Application.Exit();
+            }
+
+
+
         }
 
         //返回单行信息
